@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dependencies>
+   <includePath signature="/I../../../usr/local/include /I../../../usr/include/jsoncpp">
+      <source file="../../../../../usr/include/jsoncpp/json/value.h" lastModified="155d0ea25f0">
+         <include file="../../../../../usr/include/jsoncpp/json/forwards.h"/>
+      </source>
+      <source file="../../../../../usr/include/jsoncpp/json/json.h" lastModified="155d0ea0e80">
+         <include file="../../../../../usr/include/jsoncpp/json/autolink.h"/>
+         <include file="../../../../../usr/include/jsoncpp/json/value.h"/>
+         <include file="../../../../../usr/include/jsoncpp/json/reader.h"/>
+         <include file="../../../../../usr/include/jsoncpp/json/writer.h"/>
+         <include file="../../../../../usr/include/jsoncpp/json/features.h"/>
+      </source>
+      <source file="../../src/cpp/client/messagelibrarystub.h" lastModified="16a27f1c830">
+         <sysinclude file="../../../../../usr/include/jsonrpccpp/client.h"/>
+      </source>
+      <source file="../../../../../usr/include/jsoncpp/json/autolink.h" lastModified="155d0ea1268">
+         <include file="../../../../../usr/include/jsoncpp/json/config.h"/>
+         <include file="../../../../../usr/include/jsoncpp/json/autolink.h"/>
+      </source>
+      <source file="../../src/cpp/client/MessageClient.cpp" lastModified="16a04272760">
+         <include file="../../../../../usr/include/jsoncpp/json/json.h"/>
+         <include file="../../src/cpp/client/MessageGui.cpp"/>
+         <include file="../../src/cpp/client/messagelibrarystub.h"/>
+         <include file="../../src/cpp/server/Message.hpp"/>
+         <sysinclude file="../../../../../usr/include/FL/Fl.H"/>
+         <sysinclude file="../../../../../usr/include/FL/Fl_Window.H"/>
+         <sysinclude file="../../../../../usr/include/FL/Fl_Button.H"/>
+         <sysinclude file="../../../../../usr/include/FL/Fl_Output.H"/>
+         <sysinclude file="../../../../../usr/include/FL/Fl_Multiline_Input.H"/>
+         <sysinclude file="../../../../../usr/include/FL/Fl_Check_Browser.H"/>
+         <sysinclude file="../../../../../usr/include/stdio.h"/>
+         <sysinclude file="../../../../../usr/include/stdlib.h"/>
+         <sysinclude file="../../../../../usr/include/jsonrpccpp/client/connectors/httpclient.h"/>
+      </source>
+      <source file="../../../../../usr/include/jsoncpp/json/config.h" lastModified="155d0ea1a38">
+         <include file="../../../../../usr/include/jsoncpp/json/version.h"/>
+         <include file="../../../../../usr/include/jsoncpp/json/allocator.h"/>
+      </source>
+      <source file="../../../../../usr/include/jsoncpp/json/features.h" lastModified="155d0ea0e80">
+         <include file="../../../../../usr/include/jsoncpp/json/forwards.h"/>
+      </source>
+      <source file="../../../../../usr/include/jsoncpp/json/forwards.h" lastModified="155d0ea0e80">
+         <include file="../../../../../usr/include/jsoncpp/json/config.h"/>
+      </source>
+      <source file="../../../../../usr/include/jsoncpp/json/allocator.h" lastModified="155d0ea1650">
+      </source>
+      <source file="../../../../../usr/include/jsoncpp/json/reader.h" lastModified="155d0ea2208">
+         <include file="../../../../../usr/include/jsoncpp/json/features.h"/>
+         <include file="../../../../../usr/include/jsoncpp/json/value.h"/>
+      </source>
+      <source file="../../src/cpp/server/Message.cpp" lastModified="169f52e7380">
+         <include file="../../src/cpp/server/Message.hpp"/>
+         <sysinclude file="../../../../../usr/include/stdlib.h"/>
+      </source>
+      <source file="../../src/cpp/server/Message.hpp" lastModified="169f52ae170">
+         <include file="../../../../../usr/include/jsoncpp/json/json.h"/>
+         <sysinclude file="../../../../../usr/include/stdlib.h"/>
+      </source>
+      <source file="../../../../../usr/include/jsoncpp/json/writer.h" lastModified="155d0ea1a38">
+         <include file="../../../../../usr/include/jsoncpp/json/value.h"/>
+      </source>
+      <source file="../../../../../usr/include/jsoncpp/json/version.h" lastModified="155d0ea0e80">
+      </source>
+      <source file="../../src/cpp/client/MessageGui.cpp" lastModified="169f4909188">
+         <sysinclude file="../../../../../usr/include/FL/Fl.H"/>
+         <sysinclude file="../../../../../usr/include/FL/Fl_Window.H"/>
+         <sysinclude file="../../../../../usr/include/FL/Fl_Button.H"/>
+         <sysinclude file="../../../../../usr/include/FL/Fl_Output.H"/>
+         <sysinclude file="../../../../../usr/include/FL/Fl_Text_Display.H"/>
+         <sysinclude file="../../../../../usr/include/FL/Fl_Text_Buffer.H"/>
+         <sysinclude file="../../../../../usr/include/FL/Fl_Input_Choice.H"/>
+         <sysinclude file="../../../../../usr/include/FL/Fl_Multiline_Input.H"/>
+         <sysinclude file="../../../../../usr/include/FL/Fl_Multiline_Output.H"/>
+         <sysinclude file="../../../../../usr/include/FL/Fl_Check_Browser.H"/>
+         <sysinclude file="../../../../../usr/include/stdio.h"/>
+         <sysinclude file="../../../../../usr/include/stdlib.h"/>
+      </source>
+   </includePath>
+</dependencies>

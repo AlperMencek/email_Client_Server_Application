@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+<project name="JsonRPC in CPP using libjson-rpc-cpp" default="targets">
+   <taskdef resource="cpptasks.tasks"/>
+   <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+   <property name="src.dir" value="src"/>
+   <property name="dist.dir" value="bin"/>
+   <property name="classes.dir" value="classes"/>
+   <property name="obj.dir" value="obj"/>
+   <property name="host" value="localhost"/>
+   <property name="port" value="8080"/>
+   <property name="userId" value="AlperMencek"/>
+   <property name="json.file.name" value="MessageMethods.json"/>
+   <property environment="env"/>
+   <!--Set the ostype property: <property name="ostype" value="${env.OSTYPE}"/>-->
+    <condition property="ostype" value="${env.OSTYPE}">
+        <isset property="env.OSTYPE" />
+    </condition>
+    <condition property="ostype" value="env.OSTYPE_inaccessable">
+        <not>
+            <isset property="env.OSTYPE" />
+        </not>
+    </condition>
+
+    <!--Set the dyldpath property <var name="dyldpath" value="${env.DYLD_FALLBACK_LIBRARY_PATH}"/>-->
+    <condition property="dyldpath" value="${env.DYLD_FALLBACK_PATH}">
+        <isset property="env.DYLD_FALLBACK_PATH" />
+    </condition>
+    <condition property="dyldpath" value="env.DYLD_FALLBACK_PATH_inaccessible">
+        <not>
+            <isset property="env.DYLD_FALLBACK_PATH" />
+        </not>
+    </condition>
+
+   <target name="targets">
+      <echo message="Targets are clean, prepare, build.all, generate.server.stub, build.server, generate.client.stub, build.client, build.java.client, targets"/>
+      <echo message="base directory is: ${basedir} and ostype is ${ostype}"/>
+      <echo message="execute cpp server with: ./bin/studentRPCServer ${port}"/>
+      <echo message="execute cpp client with: ./bin/studentRPCClient http://${host.name}:${port.num}"/>
+      <echo message="invoke java http client with: java -cp classes:lib/json.jar sample.student.client.messagelibraryClient ${host.name} ${port.num}"/>
+      <echo message =" ant client -Dhost=localhost -Dport=8080 -DuserId=TimLindquist"/>
+      <echo message = " ant server -Dport=8080"/>
+      
+   </target>
+
+   <target name="client" depends="build.client">
+      <exec executable="${dist.dir}/studentRPCClient">
+      <arg value="${host}"/>
+         <arg value="${port}"/>
+         <arg value= "${userId}"/> 
+       </exec>
+   </target>
+
+<target name="server" depends="build.server">
+      <exec executable="${dist.dir}/studentRPCServer">
+         <arg value="${port}"/>
+        </exec>
+   </target>
+
+   <path id="compile.classpath">
+      <pathelement location="${classes.dir}"/>
+      <fileset dir="${basedir}/lib">
+         <include name="json.jar,antlibs.jar"/>
+      </fileset>
+   </path>
+
+   <target name="clean">
+      <delete dir="${classes.dir}" failonerror="false"/>
+      <delete dir="${dist.dir}" failonerror="false"/>
+      <delete dir="${obj.dir}" failonerror="false"/>
+      <delete dir="log" failonerror="false"/>
+      <delete file="log.txt" failonerror="false"/>
+      <delete file="logerrors.txt" failonerror="false"/>
+      <delete file="logpid.txt" failonerror="false"/>
+      <delete file="${src.dir}/cpp/server/messageserverstub.h"
+              failonerror="false"/>
+      <delete file="${src.dir}/cpp/client/messagelibrarystub.h"
+              failonerror="false"/>
+   </target>
+
+   <target name="prepare">
+      <mkdir dir="${classes.dir}"/>
+      <mkdir dir="${dist.dir}" />
+      <mkdir dir="log" />
+      <mkdir dir="${obj.dir}/client" />
+      <mkdir dir="${obj.dir}/server" />
+      <if>
+         <isset property="env.USERNAME"/>
+         <then>
+            <echo message="detected username is: ${env.USERNAME}"/>
+         </then>
+      <elseif>
+         <isset property="env.USER"/>
+         <then>
+            <echo message="detected user is: ${env.USER}"/>
+         </then>
+      </elseif>
+      </if>
+      <echo message="host name is: ${os.name}"/>
+      <echo message="host arch is: ${os.arch}"/>
+      <echo message="host version is: ${os.version}"/>
+
+      <!-- Platform identification -->
+      <condition property="build.host.islinux">
+        <and>
+          <os family="unix" />
+          <not>
+            <contains string="${os.name}" substring="mac"
+                      casesensitive="false" />
+          </not>
+        </and>
+      </condition>
+      <condition property="build.host.platform" value="linux">
+        <isset property="build.host.islinux" />
+      </condition>
+
+      <condition property="build.host.ismac">
+        <and>
+          <os family="unix" />
+          <contains string="${os.name}" substring="mac" casesensitive="false"/>
+        </and>
+      </condition>
+      <condition property="build.host.platform" value="mac">
+        <isset property="build.host.ismac" />
+      </condition>
+
+      <fail unless="build.host.platform"
+            message="Building on ${os.name} is not supported" />
+      <echo message="build.host.platform is: ${build.host.platform}"/>
+      <if>
+         <isset property="build.host.ismac"/>
+         <then>
+            <echo message="detected a mac host"/>
+            <property name="cxxflag" value="-std=c++14"/>
+            <property name="includepath" value="/opt/local/include:/usr/local/include"/>
+            <property name="client.lib.path" value="/opt/local/lib"/>
+            <property name="client.lib.list" value="c++,jsoncpp,jsonrpccpp-client,jsonrpccpp-common,microhttpd,stdc++"/>
+            <property name="server.lib.path" value="/opt/local/lib"/>
+            <property name="server.lib.list" value="c++,jsoncpp,jsonrpccpp-server,jsonrpccpp-common,microhttpd"/>
+         </then>
+      <elseif>
+         <isset property="build.host.islinux"/>
+         <then>
+            <echo message="detected a linux host"/>
+            <property name="cxxflag" value="-std=c++14"/>
+            <property name="includepath" value="/usr/local/include:/usr/include/jsoncpp"/>
+            <property name="client.lib.path" value="/usr/local/lib"/>
+            <property name="client.lib.list" value="jsoncpp,jsonrpccpp-client,jsonrpccpp-common,microhttpd,stdc++"/>
+            <property name="server.lib.path" value="/usr/local/lib"/>
+            <property name="server.lib.list" value="jsoncpp,jsonrpccpp-server,jsonrpccpp-common,microhttpd,stdc++"/>
+         </then>
+      </elseif>
+      <else>
+         <echo message="failed to detect a host I know how to build on"/>
+      </else>
+   </if>
+   </target>
+
+   <target name="build.all"
+           depends="clean,prepare,build.server,build.client"
+           description="Clean then build cpp server, cpp client and java client"/>
+
+   <target name="generate.client.stub" depends="prepare">
+      <exec dir="${basedir}" executable="jsonrpcstub">
+         <arg line="${json.file.name} --cpp-client=messagelibrarystub"/>
+      </exec>
+      <copy file="messagelibrarystub.h"
+            tofile="${src.dir}/cpp/client/messagelibrarystub.h"/>
+      <delete file="messagelibrarystub.h"/>
+   </target>
+
+   <target name="build.client" depends="generate.client.stub">
+      <cc outtype="executable" subsystem="console"
+          outfile="${dist.dir}/studentRPCClient"
+          objdir="${obj.dir}/client">
+         <compilerarg value="${cxxflag}"/>
+         <includepath>
+            <pathelement path="${includepath}"/>
+         </includepath>
+         <libset dir="${client.lib.path}" libs="${client.lib.list},fltk"/>
+         <fileset dir="${src.dir}/cpp/client" includes="MessageClient.cpp,MessageGui.cpp"/>
+         <fileset dir="${src.dir}/cpp/server" includes="Message.cpp"/>
+         
+
+      </cc>
+   </target>
+
+   <target name="generate.server.stub" depends="prepare">
+      <exec dir="${basedir}" executable="jsonrpcstub">
+         <arg line="${json.file.name} --cpp-server=messageserverstub"/>
+      </exec>
+      <copy file="messageserverstub.h"
+            tofile="${src.dir}/cpp/server/messageserverstub.h"/>
+      <delete file="messageserverstub.h"/>
+   </target>
+
+   <target name="build.server" depends="generate.server.stub">
+     <cc outtype="executable" subsystem="console"
+         outfile="${dist.dir}/studentRPCServer"
+         objdir="${obj.dir}/server">
+         <compiler name="g++"/>
+         <compilerarg value="${cxxflag}"/>
+         <includepath>
+            <pathelement path="${includepath}"/>
+         </includepath>
+         <libset dir="${server.lib.path}" libs="${server.lib.list}"/>
+         <fileset dir="${src.dir}/cpp/server"
+                  includes="Message.cpp, MessageLibrary.cpp, MessageServer.cpp"/>
+      </cc>
+   </target>
+
+   
+<!--    <target name="build.java.client" depends="prepare"
+          description="Compile Java client sources">
+     <! Compile Java classes as necessary -->
+    <!--  <echo message="execute: java -cp classes:lib/json.jar sample.student.client.messagelibraryClient localhost 8080"/>
+     <javac srcdir="${src.dir}/java/client"
+            destdir="${classes.dir}"
+            includeantruntime="false">
+        <classpath refid="compile.classpath"/>
+     </javac> -->
+ <!--  </target> 
+-->
+ </project>

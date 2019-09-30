@@ -1,0 +1,99 @@
+<project name="Ser321 Basic Rmi Example" default="targets" basedir=".">
+
+   <!-- set global properties for this build -->
+   <property name="src" value="src" />
+   <property name="build" value="classes" />
+   <property name="lib" value="./lib" />
+   <property name="hostId" value="localhost" />
+   <property name="regPort" value="1099" />
+    <property name="userId" value="AlperMencek"/>
+<property name="parentDir" value="${user.dir}${file.separator}" />
+
+   <path id="compile.classpath">
+      <pathelement location="${build}"/>
+       <fileset dir="${lib}">
+         <include name="*.jar"/>
+      </fileset>
+   </path>
+
+
+
+   <target name="targets" >
+      <echo message="targets are clean, prepare, compile, server, client"/>
+      <echo message="java home is: ${java.home}"/>
+      
+      <echo>
+         start server with: ant server -DhostId=192.168.2.2 -DregPort=2222
+      </echo>
+      <echo>
+         start client with: ant client -DhostId=192.168.2.2 -DregPort=2222 -DuserId=AlperMencek
+      </echo>
+       <echo>
+         start client with: ant client -DhostId=192.168.2.2 -DregPort=2222 -DuserId=TimLindquist
+      </echo>
+   </target>
+
+   <target name="prepare">
+      <!-- Create the time stamp -->
+      <tstamp/>
+      <!-- Create the build directory structure used by compile -->
+      <echo message="home defined as: ${home}" />
+      <mkdir dir="${build}" />
+   </target>
+
+   <target name="compile" depends="prepare"
+           description="Compile Java sources">
+      <javac srcdir="${src}"
+             includeantruntime="false"
+             destdir="${build}"
+             debug = "on"
+             debuglevel= "lines,vars,source">
+         <classpath refid="compile.classpath"/>
+      </javac>
+<!--      <rmic classname="personnel.EmpServerImpl" base="${build}">
+             <classpath refid="compile.classpath"/>
+          </rmic> -->
+   </target>
+
+   <target name="client" depends="compile"
+           description="Start client">
+         <echo message="user.dir is: ${user.dir}"/>
+         <echo message="command line client: java -cp classes -Djava.security.policy=policyClient RMIClient ${hostId} ${regPort}" />
+         <java classname="ser321.assign3.amencek.client.RMIClientGui" fork="yes">
+           <classpath refid="compile.classpath"/>
+<!--           <sysproperty key="java.security.policy" value="policyClient"/> -->
+           <arg value="${hostId}"/> 
+           <arg value="${regPort}"/>
+             <arg value= "${userId}"/> 
+         </java>
+   </target>
+
+   <target name="server" depends="compile"
+           description="Using parallel task, start server and client">
+     <parallel>
+       <exec dir="${basedir}"
+             executable="rmiregistry">
+         <arg value="${regPort}"/>
+         <env key="CLASSPATH" path="${basedir}/${build}"/>
+       </exec>
+       <sequential>
+         <sleep seconds="3"/>
+         <java classname="ser321.assign3.amencek.server.messageLibServerImpl" fork="yes">
+<!--           <sysproperty key="java.security.policy" value="policyServer"/> -->
+           <sysproperty key="java.rmi.server.hostname" value="${hostId}"/>
+           <arg value="${hostId}"/> 
+           <arg value="${regPort}"/> 
+            <!-- -->
+           <classpath refid="compile.classpath"/>
+         </java>
+       </sequential>
+     </parallel>
+   </target>
+
+   <target name="clean">
+     <!-- Delete the ${build} directory tree -->
+     <delete dir="${build}" />
+    
+   </target>
+
+</project>

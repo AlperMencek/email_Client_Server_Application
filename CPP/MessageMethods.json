@@ -1,0 +1,27 @@
+[
+    {
+        "method": "getMessageFromHeaders",
+        "params":["AlperMencek"],
+        "returns":[]
+    },
+    {
+        "method": "getMessage",
+        "params":["test 123","AlperMencek"],
+        "returns":{}
+    },
+    {   // add(JsonOfAStudent) --> bool
+        "method": "deleteMessage",
+        "params":["test 123","AlperMencek"],
+        "returns": true
+    },
+    {   // remove(string) --> bool
+        "method": "initGroupFromJsonFile",
+        "params":[],
+        "returns": true
+    },
+    {   // remove(string) --> bool
+        "method": "sendClearText",
+        "params":["id","name","date","to","from","header","subj","message","touser"],
+        "returns": true
+    }
+]

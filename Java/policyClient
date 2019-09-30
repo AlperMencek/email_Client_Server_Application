@@ -1,0 +1,21 @@
+/* This policy file defines the permissions for the employee client.
+   It grants to the classes codebase permission to connect and resolve
+   socket connections to any host on ports greater than 1024. Hosts are
+   not limited to allow this example to work with the client on one machine
+   and the employee object server on another machine.
+   Note that permission to the rmiregistry port alone
+   is not sufficient for this example to run successfully. The
+   stub and skeleton must communicate using un-privileged ports.
+   Note also that the file protocol on Windows must be a single slash:
+     file:/${...
+   whereas on linux, the file protocol must be a double slash file://${...
+
+   Author: Tim Lindquist, ASU Polytechnic Tim.Lindquist@asu.edu
+   Version: June 2015
+*/
+grant codeBase "file:/${user.dir}/classes/-" {
+  permission java.net.SocketPermission "*:1024-","connect,resolve";
+};
+grant codeBase "file://${user.dir}/classes/-" {
+  permission java.net.SocketPermission "*:1024-","connect,resolve";
+};

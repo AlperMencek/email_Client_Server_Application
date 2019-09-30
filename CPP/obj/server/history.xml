@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<history>
+   <processor signature="g++ noversion nomachine -std=c++14 -c -I../../../usr/local/include -I../../../usr/include/jsoncpp">
+      <target file="MessageServer.o" lastModified="16a27f1b0c0">
+         <source file="../../src/cpp/server/MessageServer.cpp" lastModified="169ff731530"/>
+      </target>
+      <target file="Message.o" lastModified="16a27eae678">
+         <source file="../../src/cpp/server/Message.cpp" lastModified="169f52e63e0"/>
+      </target>
+      <target file="MessageLibrary.o" lastModified="16a27eaea60">
+         <source file="../../src/cpp/server/MessageLibrary.cpp" lastModified="169ff71d4e0"/>
+      </target>
+   </processor>
+</history>
